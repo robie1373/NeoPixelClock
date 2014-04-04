@@ -20,7 +20,7 @@ Sketch to run a clock built out of a nifty, old hunk of marble and a pile of par
 
 ## Circuit
 
-Coming "soon"
+fitzring diagram in circuit folder.
 
 ## ToDo
 
