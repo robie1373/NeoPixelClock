@@ -1,3 +1,5 @@
+// From the Adafruit NeoPixel strandtest sketch
+
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
   for(uint16_t i=0; i<strip.numPixels(); i++) {

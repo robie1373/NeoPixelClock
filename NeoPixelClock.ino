@@ -1,19 +1,24 @@
 #include <Adafruit_NeoPixel.h>
 #include <ColorFunctions.ino>
 #include <ButtonControls.ino>
-#include <ClockFace.ino>
+//#include <ClockFace.ino>
 
-#define PIN 10          // NeoPixel data pin
+#define NEODATAPIN 10          // NeoPixel data pin
 float brightness = 0.20; // must be less than 1
 
-#define buttonSelect 12  
-#define buttonUp 1      // TX on Flora
-#define buttonDown 0    // RX on Flora
-#define buttonLeft 2    // SDA on Flora
-#define buttonRight 3   // SCL on Flora  
+#define buttonUp 12  
+#define buttonRight 1     // TX on Flora
+#define buttonDown 0      // RX on Flora
+#define buttonSelect 2    // SDA on Flora
+#define buttonLeft 3      // SCL on Flora  
+int buttonSelectState = LOW;
+int buttonUpState     = LOW;
+int buttonDownState   = LOW;
+int buttonLeftState   = LOW;
+int buttonRightState  = LOW;
 
-int buttons[] = {buttonSelect, buttonUp, buttonDown, buttonLeft, buttonRight};
-int buttonStates[] = {LOW, LOW, LOW, LOW, LOW};
+int buttons[]       = {buttonSelect,      buttonUp,       buttonDown,      buttonLeft,      buttonRight};
+int buttonStates[]  = {buttonSelectState, buttonUpState,  buttonDownState, buttonLeftState, buttonRightState};
 int buttonCount = 5;
 
 int buttonState0;
@@ -51,9 +56,10 @@ int buttonMetas[5][3] = {
 //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, NEODATAPIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
+  // Serial.begin(115200);
   pinMode(buttonSelect, INPUT_PULLUP);
   pinMode(buttonUp,     INPUT_PULLUP);
   pinMode(buttonDown,   INPUT_PULLUP);
@@ -63,27 +69,38 @@ void setup() {
   strip.begin();
   strip.setBrightness(brightness * 255);
   strip.show(); // Initialize all pixels to 'off'
+  delay(500);
 }
 
 void loop() {
   for (int thisButton = 0; thisButton < buttonCount; thisButton++) {
     buttonStates[thisButton] = readButton(buttons[thisButton], buttonMetas[thisButton]);
   }
-      if (buttonStates[0] == LOW) {
-        colorWipe(strip.Color(255, 100, 0), 10); // ORANGE
-      }
-      else if (buttonStates[1] == LOW) {
-        colorWipe(strip.Color(0, 255, 0), 10); // Green
-      }
-      else if (buttonStates[2] == LOW) {
-        colorWipe(strip.Color(0, 0, 255), 10); // Blue
-      }
-      else if (buttonStates[3] == LOW) {
-        colorWipe(strip.Color(125, 0, 125), 10); // magenta
-      }
-      else if (buttonStates[4] == LOW) {
-        colorWipe(strip.Color(125, 125, 125), 10); // white
-      }
+  if (buttonStates[0] == LOW) {
+    colorWipe(strip.Color(255, 100, 0), 10); // ORANGE
+    //Serial.println("buttonStates[0]");
+    //printArray(buttonStates);
+  }
+  else if (buttonStates[1] == LOW) {
+    // Serial.println("buttonStates[1]");
+    //printArray(buttonStates);
+    colorWipe(strip.Color(0, 255, 0), 10); // Green
+  }
+  else if (buttonStates[2] == LOW) {
+    // Serial.println("buttonStates[2]");
+    //printArray(buttonStates);
+    colorWipe(strip.Color(0, 0, 255), 10); // Blue
+  }
+  else if (buttonStates[3] == LOW) {
+    // Serial.println("buttonStates[3]");
+    //printArray(buttonStates);
+    colorWipe(strip.Color(125, 0, 125), 10); // magenta
+  }
+  else if (buttonStates[4] == LOW) {
+    // Serial.println("buttonStates[4]");
+    //printArray(buttonStates);
+    colorWipe(strip.Color(85, 85, 85), 10); // white
+  }
 
   // // Some example procedures showing how to display to the pixels:
   // colorWipe(strip.Color(255, 0, 0), 50); // Red
@@ -93,5 +110,10 @@ void loop() {
   // rainbowCycle(20);
 }
 
-
-
+// void printArray(int stateArray[5]) {
+//   Serial.println("This array");
+//   int i;
+//   for (i = 0; i < 5; i = i + 1) {
+//     Serial.println(stateArray[i]);
+//   }
+// }

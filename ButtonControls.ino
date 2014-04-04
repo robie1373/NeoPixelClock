@@ -1,3 +1,8 @@
+// From the debounce example sketch. 
+// Turned into a function with dependency injection
+// to make it easier to use in the loop for numerous buttons
+// Note that this is set up for buttons attached to a pull-up
+// not pull-down.
 
 int readButton(int button, int buttonMeta[3]) {
 
@@ -25,11 +30,10 @@ int readButton(int button, int buttonMeta[3]) {
 
        // only toggle the LED if the new button state is HIGH
       if (buttonMeta[0] == LOW) {
-        // pressedButton = button;
         return LOW;
       }
     }
   }
-  // return pressedButton;
+  // if button not really pressed return default state;
   return HIGH;
 }
