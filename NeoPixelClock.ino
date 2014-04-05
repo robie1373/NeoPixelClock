@@ -9,8 +9,13 @@ float brightness = 0.20; // must be less than 1
 #define buttonUp 12  
 #define buttonRight 1     // TX on Flora
 #define buttonDown 0      // RX on Flora
-#define buttonSelect 2    // SDA on Flora
-#define buttonLeft 3      // SCL on Flora  
+#define buttonSelect 6    
+#define buttonLeft 9      
+
+// For RTC
+#define SDA 2             // SDA on Flora
+#define SCL 3             // SCL on Flora
+
 int buttonSelectState = LOW;
 int buttonUpState     = LOW;
 int buttonDownState   = LOW;
