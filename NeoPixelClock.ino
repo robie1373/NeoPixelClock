@@ -1,7 +1,14 @@
 #include <Adafruit_NeoPixel.h>
 #include <ColorFunctions.ino>
 #include <ButtonControls.ino>
-//#include <ClockFace.ino>
+#include <ClockFace.ino>
+#include <checkButtons.ino>
+#include <WaterClock.ino>
+#include <Wire.h>
+#include <Time.h>
+#include <DS1307RTC.h>
+
+
 
 #define NEODATAPIN 10          // NeoPixel data pin
 float brightness = 0.20; // must be less than 1
@@ -54,6 +61,7 @@ int buttonMetas[5][3] = {
   { buttonState4, lastButtonState4, lastDebounceTime4 }
 };
 
+// Neopixel code from Adafruit examples, obviously.
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = pin number (most are valid)
 // Parameter 3 = pixel type flags, add together as needed:
@@ -62,9 +70,11 @@ int buttonMetas[5][3] = {
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(24, NEODATAPIN, NEO_GRB + NEO_KHZ800);
+//  Set topLED to be the top LED on your ring. (numbers go counter clockwise, I think)
+#define topLED 1
 
 void setup() {
-  // Serial.begin(115200);
+//  Serial.begin(115200);
   pinMode(buttonSelect, INPUT_PULLUP);
   pinMode(buttonUp,     INPUT_PULLUP);
   pinMode(buttonDown,   INPUT_PULLUP);
@@ -75,50 +85,26 @@ void setup() {
   strip.setBrightness(brightness * 255);
   strip.show(); // Initialize all pixels to 'off'
   delay(500);
+  
+  //////////////////////
+  //
+  // DEBUGGERY
+  //
+  //////////////////////
+//  strip.setPixelColor(topLED, strip.Color(0,255,0)); // green
+//  strip.setPixelColor(0, strip.Color(125,125,125)); // white
+
 }
 
 void loop() {
-  for (int thisButton = 0; thisButton < buttonCount; thisButton++) {
-    buttonStates[thisButton] = readButton(buttons[thisButton], buttonMetas[thisButton]);
-  }
-  if (buttonStates[0] == LOW) {
-    colorWipe(strip.Color(255, 100, 0), 10); // ORANGE
-    //Serial.println("buttonStates[0]");
-    //printArray(buttonStates);
-  }
-  else if (buttonStates[1] == LOW) {
-    // Serial.println("buttonStates[1]");
-    //printArray(buttonStates);
-    colorWipe(strip.Color(0, 255, 0), 10); // Green
-  }
-  else if (buttonStates[2] == LOW) {
-    // Serial.println("buttonStates[2]");
-    //printArray(buttonStates);
-    colorWipe(strip.Color(0, 0, 255), 10); // Blue
-  }
-  else if (buttonStates[3] == LOW) {
-    // Serial.println("buttonStates[3]");
-    //printArray(buttonStates);
-    colorWipe(strip.Color(125, 0, 125), 10); // magenta
-  }
-  else if (buttonStates[4] == LOW) {
-    // Serial.println("buttonStates[4]");
-    //printArray(buttonStates);
-    colorWipe(strip.Color(85, 85, 85), 10); // white
-  }
+  // set the Time to the latest RTC reading
+  tmElements_t time = getTime();
+  updateWaterClock(time);
+  checkButtons(time);
 
-  // // Some example procedures showing how to display to the pixels:
-  // colorWipe(strip.Color(255, 0, 0), 50); // Red
-  // colorWipe(strip.Color(0, 255, 0), 50); // Green
-  // colorWipe(strip.Color(0, 0, 255), 50); // Blue
-  // rainbow(20);
-  // rainbowCycle(20);
+  // Just a little rate limiting. There are some other delays in the waterclock code, but 
+  // between display changes I don't think you hit any of them. This app is very much not
+  // real time, so my hope is this provides a little bit of power savings.
+  delay(100);
 }
 
-// void printArray(int stateArray[5]) {
-//   Serial.println("This array");
-//   int i;
-//   for (i = 0; i < 5; i = i + 1) {
-//     Serial.println(stateArray[i]);
-//   }
-// }

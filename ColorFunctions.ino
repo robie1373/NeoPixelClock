@@ -1,3 +1,10 @@
+// function wrapper to allow setting of brightness by pixel.
+
+void setPixelColorBrightness(int pixel, int r, int g, int b, float brightness) {
+  strip.setPixelColor(pixel, strip.Color((int)(r * brightness), (int)(g * brightness), (int)(b * brightness)));  
+}
+
+// Not used in project. These will probably be deleted eventually. 
 // From the Adafruit NeoPixel strandtest sketch
 
 // Fill the dots one after the other with a color
