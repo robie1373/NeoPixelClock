@@ -92,16 +92,8 @@ void fillMins(int waterMin) {
 
 void dripHour(int dHour) {
   delay(275);
-  Serial.print("dripping: ");
-  Serial.println(dHour);
-//  dHour = rationalizeHour(dHour);
+  //  dHour = rationalizeHour(dHour);
  for (int i = topHour(); i > (bottomHour() + dHour); i--) {
-   Serial.print("i, bottom + d ");
-   Serial.print(i);
-   Serial.print(", ");
-   Serial.println(dHour);
-   Serial.print("setting pixel: ");
-   Serial.println(i);
   setHourPixel(i);
   strip.show();
   delay(dripDelay);
@@ -123,6 +115,7 @@ void dripMin(int dMin) {
 
 void blankHours() {
   for (int i = topHour(); i > bottomHour(); i--) {
+    fadePixelDown(i, 255, 0, 255, 0.5);
     strip.setPixelColor(i, strip.Color(0,0,0));
     strip.show();
     delay(dripDelay);
@@ -131,6 +124,7 @@ void blankHours() {
 
 void blankMins() {
   for (int i = topMin; i < bottomMin(); i++) {
+    fadePixelDown(i, 255, 255, 255, 0.3);
     strip.setPixelColor(i, strip.Color(0,0,0)); 
     strip.show();
   }
@@ -139,13 +133,14 @@ void blankMins() {
 
 void setHourPixel(int pixel) {
 //  strip.setPixelColor(pixel, strip.Color(125,0,125)); // Magenta
-//setPixelColorBrightness(int pixel, int r, int g, int b, float brightness)
+  fadePixelUp(pixel, 255, 0, 255, 0.5);
   setPixelColorBrightness(pixel, 255, 0, 255, 0.5);
   strip.show();
 }
 
 void setMinPixel(int pixel) {
 //  strip.setPixelColor(pixel, strip.Color(125,125,125)); // White
+  fadePixelUp(pixel, 255, 255, 255, 0.3);
   setPixelColorBrightness(pixel, 255, 255, 255, 0.3);
   strip.show();
 }

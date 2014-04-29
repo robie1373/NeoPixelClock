@@ -74,7 +74,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(24, NEODATAPIN, NEO_GRB + NEO_KHZ800
 #define topLED 1
 
 void setup() {
-//  Serial.begin(115200);
+  Serial.begin(115200);
   pinMode(buttonSelect, INPUT_PULLUP);
   pinMode(buttonUp,     INPUT_PULLUP);
   pinMode(buttonDown,   INPUT_PULLUP);

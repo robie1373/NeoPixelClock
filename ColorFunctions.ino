@@ -4,6 +4,30 @@ void setPixelColorBrightness(int pixel, int r, int g, int b, float brightness) {
   strip.setPixelColor(pixel, strip.Color((int)(r * brightness), (int)(g * brightness), (int)(b * brightness)));  
 }
 
+void fadePixelUp(int pixel, int r, int g, int b, float brightness) {
+  int fadeRate = 2; // effectively millis of delay() between fade steps
+  int fadeSteps = 50.0;
+  for (float i = 0.0; i < brightness; i += (brightness / fadeSteps)) {
+    Serial.print("brightness: ");
+    Serial.println(i);
+    setPixelColorBrightness(pixel, r, g, b, i);
+    strip.show();
+    delay(fadeRate);
+  }
+}
+
+void fadePixelDown(int pixel, int r, int g, int b, float brightness) {
+  int fadeRate = 2; // effectively millis of delay() between fade steps
+  int fadeSteps = 50.0;
+  for (float i = brightness; i > 0.0; i -= (brightness / fadeSteps)) {
+    Serial.print("brightness: ");
+    Serial.println(i);
+    setPixelColorBrightness(pixel, r, g, b, i);
+    strip.show();
+    delay(fadeRate);
+  }
+}
+
 // Not used in project. These will probably be deleted eventually. 
 // From the Adafruit NeoPixel strandtest sketch
 
