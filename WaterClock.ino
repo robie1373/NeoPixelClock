@@ -114,7 +114,7 @@ void dripMin(int dMin) {
 }
 
 void blankHours() {
-  for (int i = topHour(); i > bottomHour(); i--) {
+  for (int i = topHour(); i >= bottomHour(); i--) {
     fadePixelDown(i, 255, 0, 255, 0.5);
     strip.setPixelColor(i, strip.Color(0,0,0));
     strip.show();
@@ -123,7 +123,7 @@ void blankHours() {
 }
 
 void blankMins() {
-  for (int i = topMin; i < bottomMin(); i++) {
+  for (int i = topMin; i <= bottomMin(); i++) {
     fadePixelDown(i, 255, 255, 255, 0.3);
     strip.setPixelColor(i, strip.Color(0,0,0)); 
     strip.show();
