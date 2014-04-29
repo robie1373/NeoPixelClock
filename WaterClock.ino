@@ -134,6 +134,7 @@ void blankMins() {
 void setHourPixel(int pixel) {
 //  strip.setPixelColor(pixel, strip.Color(125,0,125)); // Magenta
   fadePixelUp(pixel, 255, 0, 255, 0.5);
+  delay(dripDelay);
   setPixelColorBrightness(pixel, 255, 0, 255, 0.5);
   strip.show();
 }
@@ -141,6 +142,7 @@ void setHourPixel(int pixel) {
 void setMinPixel(int pixel) {
 //  strip.setPixelColor(pixel, strip.Color(125,125,125)); // White
   fadePixelUp(pixel, 255, 255, 255, 0.3);
+  delay(dripDelay);
   setPixelColorBrightness(pixel, 255, 255, 255, 0.3);
   strip.show();
 }
