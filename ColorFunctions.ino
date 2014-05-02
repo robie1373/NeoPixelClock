@@ -6,10 +6,8 @@ void setPixelColorBrightness(int pixel, int r, int g, int b, float brightness) {
 
 void fadePixelUp(int pixel, int r, int g, int b, float brightness) {
   int fadeRate = 2; // effectively millis of delay() between fade steps
-  int fadeSteps = 50.0;
+  int fadeSteps = 50;
   for (float i = 0.0; i < brightness; i += (brightness / fadeSteps)) {
-    Serial.print("brightness: ");
-    Serial.println(i);
     setPixelColorBrightness(pixel, r, g, b, i);
     strip.show();
     delay(fadeRate);
@@ -18,10 +16,8 @@ void fadePixelUp(int pixel, int r, int g, int b, float brightness) {
 
 void fadePixelDown(int pixel, int r, int g, int b, float brightness) {
   int fadeRate = 2; // effectively millis of delay() between fade steps
-  int fadeSteps = 50.0;
+  int fadeSteps = 50;
   for (float i = brightness; i > 0.0; i -= (brightness / fadeSteps)) {
-    Serial.print("brightness: ");
-    Serial.println(i);
     setPixelColorBrightness(pixel, r, g, b, i);
     strip.show();
     delay(fadeRate);

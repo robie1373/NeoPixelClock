@@ -8,6 +8,7 @@ int dripDelay = 350;
 
 int start = 0;
 
+// Configuration functions
 int bottomHour() {
   return(topLED + 12);  
 }
@@ -22,6 +23,10 @@ int topHour() {
  return(tHour);
 }
 
+float hourBrightness() { return(0.5); }
+float minuteBrightness() { return(0.3); }
+
+// Begin the functions that do things!
 void updateWaterClock(tmElements_t time) {
 //  strip.setPixelColor(bottomHour(), strip.Color(255,0,0)); // red
 //  strip.setPixelColor(bottomMin(), strip.Color(255,0,0)); // red
@@ -115,7 +120,7 @@ void dripMin(int dMin) {
 
 void blankHours() {
   for (int i = topHour(); i >= bottomHour(); i--) {
-    fadePixelDown(i, 255, 0, 255, 0.5);
+    fadePixelDown(i, 255, 0, 255, hourBrightness());
     strip.setPixelColor(i, strip.Color(0,0,0));
     strip.show();
     delay(dripDelay);
@@ -124,26 +129,35 @@ void blankHours() {
 
 void blankMins() {
   for (int i = topMin; i <= bottomMin(); i++) {
-    fadePixelDown(i, 255, 255, 255, 0.3);
+    fadePixelDown(i, 255, 255, 255, minuteBrightness());
     strip.setPixelColor(i, strip.Color(0,0,0)); 
     strip.show();
   }
   delay(dripDelay);
 }
 
+// These might be useful for balancing the speed at which
+// hour and minute fade.
+//float hmBrightnessRatio( float hbright, float mbright) {
+//  return(hbright / mbright);  
+//}
+//float mhBrightnessRatio( float hbright, float mbright) {
+//  return(mbright / hbright);  
+//}
+
 void setHourPixel(int pixel) {
 //  strip.setPixelColor(pixel, strip.Color(125,0,125)); // Magenta
-  fadePixelUp(pixel, 255, 0, 255, 0.5);
+  fadePixelUp(pixel, 255, 0, 255, hourBrightness());
   delay(dripDelay);
-  setPixelColorBrightness(pixel, 255, 0, 255, 0.5);
+  setPixelColorBrightness(pixel, 255, 0, 255, hourBrightness());
   strip.show();
 }
 
 void setMinPixel(int pixel) {
 //  strip.setPixelColor(pixel, strip.Color(125,125,125)); // White
-  fadePixelUp(pixel, 255, 255, 255, 0.3);
+  fadePixelUp(pixel, 255, 255, 255, minuteBrightness());
   delay(dripDelay);
-  setPixelColorBrightness(pixel, 255, 255, 255, 0.3);
+  setPixelColorBrightness(pixel, 255, 255, 255, minuteBrightness());
   strip.show();
 }
 
@@ -152,12 +166,13 @@ void clearPixel(int pixel) {
   strip.show();
 }
 
-int rationalizeHour(int inHour) {
-  int outHour;
- if (inHour > 23) { outHour = inHour - 12; } 
- else if (inHour < 0) { outHour = inHour +12; }
- return(outHour);
-}
+// This might need to be used if you set topLED to something else.
+//int rationalizeHour(int inHour) {
+//  int outHour;
+// if (inHour > 23) { outHour = inHour - 12; } 
+// else if (inHour < 0) { outHour = inHour +12; }
+// return(outHour);
+//}
 
 
 void printTime(tmElements_t time) {
