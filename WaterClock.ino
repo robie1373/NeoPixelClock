@@ -1,5 +1,6 @@
 int lastWaterHour = -1;
 int lastFifthMin = 0;
+int lastWaterMin     = 0;
 int fifthMin    = 0;
 int rtcHour     = 0;
 //int bottomMin  = bottomHour() - 1;
@@ -36,7 +37,7 @@ void updateWaterClock(tmElements_t time) {
     rtcHour = time.Hour;
   }
 //    printTime(time); // DEBUG
-
+  int thisMin = time.Minute;
   // update fifthMin every 5 minutes. This is when we want to add an LED to display
   fifthMin = (int)(time.Minute / 5);
   if (fifthMin < 0) { fifthMin = fifthMin + 12; }
@@ -53,7 +54,10 @@ void updateWaterClock(tmElements_t time) {
  
   if (fifthMin != lastFifthMin) {
     fillMins(fifthMin);
-  } 
+  } else if (thisMin != lastWaterMin) {
+     dripMin(thisMin);
+    lastWaterMin = thisMin; 
+  }
   lastFifthMin = fifthMin;
 }
 
