@@ -8,7 +8,11 @@
 #include <Time.h>
 #include <DS1307RTC.h>
 
-
+/////////////////////////
+//
+// Version 0.0.1
+//
+////////////////////////
 
 #define NEODATAPIN 10          // NeoPixel data pin
 float brightness = 0.20; // must be less than 1

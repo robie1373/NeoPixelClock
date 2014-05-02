@@ -5,7 +5,7 @@ int fifthMin    = 0;
 int rtcHour     = 0;
 //int bottomMin  = bottomHour() - 1;
 int topMin     = topLED;
-int dripDelay = 350;
+int dripDelay = 300;
 
 int start = 0;
 
@@ -54,8 +54,9 @@ void updateWaterClock(tmElements_t time) {
  
   if (fifthMin != lastFifthMin) {
     fillMins(fifthMin);
+    lastWaterMin = thisMin;
   } else if (thisMin != lastWaterMin) {
-     dripMin(thisMin);
+     dripMin(fifthMin - 1);
     lastWaterMin = thisMin; 
   }
   lastFifthMin = fifthMin;

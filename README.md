@@ -6,22 +6,27 @@ Sketch to run a clock built out of a nifty, old hunk of marble and a pile of par
 
 ### Current
 
-* NeoPixel ring lights up.
-* 5-way button changes ring's color.
+* Water clock style clock face
+* 5-way button changes ring's color. Doesn't change back to clock. Heh. sigh.
 
 ### In Progress
 
 * Clockface based on Adafruit's NeoGeo watch project.
-* Water clock style clock face
 * 5-way button interface
-  * Set time
+  * Set time zone. 
+  * Set brightness.
   * Change clock face
-* Alarms?
 
 ## Circuit
 
-fitzring diagram in circuit folder.
+Fitzring diagram is in circuit folder.
 
 ## ToDo
 
 Oh so very much. :)
+
+## Version History
+
+* 2 May, 2014 - Version 0.0.1
+
+Basic working clock. 
